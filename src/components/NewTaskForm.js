@@ -1,16 +1,26 @@
 import React from "react";
 
-function NewTaskForm() {
+function NewTaskForm({categories, onTaskFormSubmit, newTask, setNewTask}) {
+
+  const optionslist= categories.filter((category)=> category !== "All").map((category) => <option key ={category} value = {category}>{category}</option>)
+  
+  function handleOnChange(e){
+    const key = e.target.name
+    const value = e.target.value
+    setNewTask({...newTask, [key]: value})
+  }
+
+  
   return (
-    <form className="new-task-form">
+    <form className="new-task-form" onSubmit={(e)=> onTaskFormSubmit(e)}>
       <label>
         Details
-        <input type="text" name="text" />
+        <input type="text" name="text" onChange = {handleOnChange} />
       </label>
       <label>
         Category
-        <select name="category">
-          {/* render <option> elements for each category here */}
+        <select name="category" onChange = {handleOnChange}>
+          {optionslist}
         </select>
       </label>
       <input type="submit" value="Add task" />
